@@ -1,3 +1,12 @@
+<?php
+require $_SERVER['DOCUMENT_ROOT'] . '/src/core.php';
+
+$pdo = createPDO();
+$sql = 'select * from posts';
+$stmt = $pdo->query($sql);
+$posts = $stmt->fetchAll();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,14 +45,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Lorem ipsum dolor</td>
-                            <td>
-                                <a href="" class="btn btn-warning">Edit</a>
-                                <a href="" class="btn btn-danger">Delete</a>
-                            </td>
-                        </tr>
+                        <?php foreach ($posts as $post) : ?>
+                            <tr>
+                                <th scope="row"><?=$post['id']?></th>
+                                <td><?=$post['title']?></td>
+                                <td>
+                                    <a href="" class="btn btn-warning">Edit</a>
+                                    <a href="" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
