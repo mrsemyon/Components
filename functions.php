@@ -1,5 +1,13 @@
 <?php
 
+function dd($ar)
+{
+    echo '<pre>';
+    var_dump($ar);
+    echo '</pre>';
+    die;
+}
+
 function createPDO()
 {
     $host = '127.0.0.1';
@@ -14,4 +22,12 @@ function createPDO()
         PDO::ATTR_EMULATE_PREPARES   => false,
     ];
     return new PDO($dsn, $user, $pass, $opt);
+}
+
+function getAllPosts()
+{
+    $pdo = createPDO();
+    $sql = 'select * from posts';
+    $stmt = $pdo->query($sql);
+    return $stmt->fetchAll();
 }
