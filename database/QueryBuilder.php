@@ -9,9 +9,9 @@ class QueryBuilder
         $this->pdo = $pdo;
     }
 
-    public function getAll()
+    public function getAll($table)
     {
-        $sql = 'select * from posts';
+        $sql = "select * from $table";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll();
     }
