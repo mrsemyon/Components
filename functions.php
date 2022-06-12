@@ -23,11 +23,3 @@ function createPDO()
     ];
     return new PDO($dsn, $user, $pass, $opt);
 }
-
-function getAllPosts()
-{
-    $pdo = createPDO();
-    $sql = 'select * from posts';
-    $stmt = $pdo->query($sql);
-    return $stmt->fetchAll();
-}

@@ -1,6 +1,9 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/functions.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/database/QueryBuilder.php';
 
-$posts = getAllPosts();
+
+$db = new QueryBuilder(createPDO());
+$posts = $db->getAll();
 
 include 'index.view.php';
