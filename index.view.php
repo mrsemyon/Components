@@ -26,7 +26,7 @@
     <main>
         <section style="padding-top:20px">
             <div class="container-xxl">
-                <a href="" class="btn btn-success">Add post</a>
+                <a href="/create.php" class="btn btn-success">Add post</a>
                 <table class="table">
                     <thead>
                         <tr>
