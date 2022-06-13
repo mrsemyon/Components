@@ -1,3 +1,7 @@
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/functions.php';
+$db = include $_SERVER['DOCUMENT_ROOT'] . '/database/start.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,28 +30,7 @@
     <main>
         <section style="padding-top:20px">
             <div class="container-xxl">
-                <a href="/create.php" class="btn btn-success">Add post</a>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($posts as $post) : ?>
-                            <tr>
-                                <th scope="row"><?=$post['id']?></th>
-                                <td><a href="/show.php?id=<?=$post['id']?>"><?=$post['title']?></a></td>
-                                <td>
-                                    <a href="" class="btn btn-warning">Edit</a>
-                                    <a href="" class="btn btn-danger">Delete</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                <h1><?= $db->getOne('posts', $_GET['id'])['title'] ?></h1>
             </div>
         </section>
     </main>
