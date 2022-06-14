@@ -32,4 +32,17 @@ class QueryBuilder
         $statement = $this->pdo->prepare($sql);
         $statement->execute($data);
     }
+
+    function update($table, $id, $data)
+    {
+        $keys = array_keys($data);
+        $sql = "UPDATE $table SET ";
+        foreach ($keys as $key) {
+            $sql .= $key .  '=:' . $key . ', ';
+        }
+        $sql = rtrim($sql, ', ') . ' WHERE id=:id';
+        $statement = $this->pdo->prepare($sql);
+        // dd($statement);
+        $statement->execute(array_merge($id, $data));
+    }
 }
