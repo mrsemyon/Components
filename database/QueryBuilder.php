@@ -33,7 +33,7 @@ class QueryBuilder
         $statement->execute($data);
     }
 
-    function update($table, $id, $data)
+    public function update($table, $id, $data)
     {
         $keys = array_keys($data);
         $sql = "UPDATE $table SET ";
@@ -42,7 +42,13 @@ class QueryBuilder
         }
         $sql = rtrim($sql, ', ') . ' WHERE id=:id';
         $statement = $this->pdo->prepare($sql);
-        // dd($statement);
         $statement->execute(array_merge($id, $data));
+    }
+
+    public function delete($table, $id)
+    {
+        $sql = "DELETE FROM $table WHERE id=:id";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($id);
     }
 }

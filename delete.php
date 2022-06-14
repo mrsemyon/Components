@@ -2,6 +2,6 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/functions.php';
 $db = include $_SERVER['DOCUMENT_ROOT'] . '/database/start.php';
 
-$posts = $db->getAll('posts');
+$db->delete('posts', $_GET);
 
-include 'index.view.php';
+header('Location: ' . '/index.php');
