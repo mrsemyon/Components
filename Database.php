@@ -100,4 +100,18 @@ class Database
         $this->error = 'There must be three parameters';
         return $this;
     }
+
+    public function insert($table, $fields = [])
+    {
+        $values = '';
+        foreach ($fields as $field) {
+            $values .= '?, ';
+        }
+        $sql = "INSERT INTO `{$table}` (`" . implode('`, `', array_keys($fields)) . "`) VALUES (" . rtrim($values, ', ') . ")";
+        if (!$this->query($sql, $fields)->error()) {
+            return $this;
+        }
+        $this->error = 'Something went wrong while adding data';
+        return $this;
+    }
 }
