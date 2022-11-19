@@ -90,4 +90,27 @@ class Database
         $this->error = 'There must be three parameters';
         return $this;
     }
+
+    public function delete($table, $where = [])
+    {
+        if (count($where) == 3) {
+
+            $operators = ['=', '>', '<', '>=', '<='];
+
+            $field = $where[0];
+            $operator = $where[1];
+            $value = $where[2];
+
+            if (in_array($operator, $operators)) {
+
+                $sql = "DELETE FROM `{$table}` WHERE `{$field}` {$operator} ?";
+                if (!$this->query($sql, [$value])->error()) {
+
+                    return $this;
+                };
+            }
+        }
+        $this->error = 'There must be three parameters';
+        return $this;
+    }
 }
