@@ -70,28 +70,15 @@ class Database
 
     public function get($table, $where = [])
     {
-        if (count($where) == 3) {
-
-            $operators = ['=', '>', '<', '>=', '<='];
-
-            $field = $where[0];
-            $operator = $where[1];
-            $value = $where[2];
-
-            if (in_array($operator, $operators)) {
-
-                $sql = "SELECT * FROM `{$table}` WHERE `{$field}` {$operator} ?";
-                if (!$this->query($sql, [$value])->error()) {
-
-                    return $this;
-                };
-            }
-        }
-        $this->error = 'There must be three parameters';
-        return $this;
+        return $this->action('SELECT *', $table, $where);
     }
 
     public function delete($table, $where = [])
+    {
+        return $this->action('DELETE', $table, $where);
+    }
+
+    public function action($action, $table, $where = [])
     {
         if (count($where) == 3) {
 
@@ -103,7 +90,7 @@ class Database
 
             if (in_array($operator, $operators)) {
 
-                $sql = "DELETE FROM `{$table}` WHERE `{$field}` {$operator} ?";
+                $sql = "{$action} FROM `{$table}` WHERE `{$field}` {$operator} ?";
                 if (!$this->query($sql, [$value])->error()) {
 
                     return $this;
