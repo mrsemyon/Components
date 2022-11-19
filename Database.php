@@ -4,13 +4,17 @@ class Database
 {
     private static $instance = null;
     private $pdo;
+    private $query;
+    private $count;
+    private $result;
+    private $error = false;
 
     private function __construct()
     {
         try {
             $this->pdo = new PDO("mysql:host=127.0.0.1;dbname=components;charset=utf8", "root", "root");
         } catch (PDOException $exception) {
-            die($exception->getMessage());
+            $this->error = $exception->getMessage();
         }
     }
 
@@ -20,5 +24,34 @@ class Database
             self::$instance = new Database();
         }
         return self::$instance;
+    }
+
+    public function query($sql)
+    {
+        $this->error = false;
+        $this->query = $this->pdo->prepare($sql);
+        try {
+            $this->query->execute();
+            $this->result = $this->query->fetchAll(PDO::FETCH_OBJ);
+            $this->count = $this->query->rowCount();
+        } catch (PDOException $exception) {
+            $this->error = $exception->getMessage();
+        }
+        return $this;
+    }
+
+    public function error()
+    {
+        return $this->error;
+    }
+
+    public function result()
+    {
+        return $this->result;
+    }
+
+    public function count()
+    {
+        return $this->count;
     }
 }
