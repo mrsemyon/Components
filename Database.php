@@ -21,6 +21,7 @@ class Database
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
+
             self::$instance = new Database();
         }
         return self::$instance;
@@ -32,8 +33,10 @@ class Database
         $this->query = $this->pdo->prepare($sql);
 
         if (count($params)) {
+
             $i = 1;
             foreach ($params as $param) {
+
                 $this->query->bindValue($i, $param);
                 $i++;
             }
@@ -44,6 +47,7 @@ class Database
             $this->result = $this->query->fetchAll(PDO::FETCH_OBJ);
             $this->count = $this->query->rowCount();
         } catch (PDOException $exception) {
+
             $this->error = $exception->getMessage();
         }
         return $this;
@@ -62,5 +66,28 @@ class Database
     public function count()
     {
         return $this->count;
+    }
+
+    public function get($table, $where = [])
+    {
+        if (count($where) == 3) {
+
+            $operators = ['=', '>', '<', '>=', '<='];
+
+            $field = $where[0];
+            $operator = $where[1];
+            $value = $where[2];
+
+            if (in_array($operator, $operators)) {
+
+                $sql = "SELECT * FROM `{$table}` WHERE `{$field}` {$operator} ?";
+                if (!$this->query($sql, [$value])->error()) {
+
+                    return $this;
+                };
+            }
+        }
+        $this->error = 'There must be three parameters';
+        return $this;
     }
 }

@@ -1,7 +1,9 @@
+<pre>
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/Database.php';
 
-$users = Database::getInstance()->query('SELECT * FROM `users` WHERE `username` IN (?, ?)', ['John Doe', 'Jane Koe']);
+//$users = Database::getInstance()->query('SELECT * FROM `users` WHERE `username` = ?', ['John Doe']);
+$users = Database::getInstance()->get('users', ['', 'id', '=', '0']);
 
 if ($users->error()) {
     echo $users->error();
