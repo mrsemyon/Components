@@ -2,6 +2,8 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/Database.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/Config.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/Input.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/Validate.php';
 
 $GLOBALS['config'] = [
     'mysql' => [
@@ -17,16 +19,52 @@ $GLOBALS['config'] = [
         ],
     ],
 ];
-$users = Database::getInstance()->query('SELECT * FROM `users` WHERE `username` = ?', ['John Doe']);
-//$users = Database::getInstance()->get('users', ['id', '>', '0']);
-//Database::getInstance()->delete('users', ['id', '=', '1']);
-//Database::getInstance()->insert('users', ['username' => 'Anna Law', 'password' => '1234']);
-//Database::getInstance()->update('users', 5, ['username' => 'Adam Eve', 'password' => '1234']);
-//echo Database::getInstance()->first()->username;
-if ($users->error()) {
-    echo $users->error();
-} else {
-    foreach ($users->result() as $user) {
-        echo $user->id . ' ' . $user->username . '<br>';
+
+if (Input::exists()) {
+    $validate = new Validate();
+
+    $validation = $validate->check($_POST, [
+        'username' => [
+            'required'  => true,
+            'min'       => 2,
+            'max'       => 15,
+            'unique'    => 'users'
+        ],
+        'password' => [
+            'required'  => true,
+            'min'       => 3
+        ],
+        'password_again' => [
+            'required'  => true,
+            'matches'   => 'password'
+        ]
+    ]);
+
+    if ($validation->passed()) {
+        echo 'passed';
+    } else {
+        foreach ($validation->errors() as $error) {
+            echo $error . '<br>';
+        }
     }
 }
+
+?>
+
+<form action="/" method="POST">
+    <div class="field">
+        <label for="username">Username</label>
+        <input type="text" name="username" value="<?= Input::get('username') ?>">
+    </div>
+    <div class="field">
+        <label for="password">Password</label>
+        <input type="password" name="password">
+    </div>
+    <div class="field">
+        <label for="password_again">Password again</label>
+        <input type="password" name="password_again">
+    </div>
+    <div class="field">
+        <button type="submit">Submit</button>
+    </div>
+</form>
