@@ -130,4 +130,9 @@ class Database
         $this->error = 'Something went wrong while updating data';
         return $this;
     }
+
+    public function first()
+    {
+        return $this->result()[0];
+    }
 }
