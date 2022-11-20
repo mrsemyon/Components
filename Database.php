@@ -12,7 +12,8 @@ class Database
     private function __construct()
     {
         try {
-            $this->pdo = new PDO("mysql:host=127.0.0.1;dbname=components;charset=utf8", "root", "root");
+            $parameters = "mysql:host=" . Config::get('mysql.host') . ";dbname=" . Config::get('mysql.name') . ";charset=" . Config::get('mysql.charset');
+            $this->pdo = new PDO($parameters, "root", "root");
         } catch (PDOException $exception) {
             $this->error = $exception->getMessage();
         }
