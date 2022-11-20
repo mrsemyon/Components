@@ -114,4 +114,20 @@ class Database
         $this->error = 'Something went wrong while adding data';
         return $this;
     }
+
+    public function update($table, $id, $fields = [])
+    {
+        $sql = "UPDATE `{$table}` SET ";
+        foreach ($fields as $key => $value) {
+            $sql .= "`" . $key . "` = ?, ";
+        }
+        $sql = rtrim($sql, ', ');
+        $sql .= " WHERE `id` = ?";
+        $fields['id'] = $id;
+        if (!$this->query($sql, $fields)->error()) {
+            return $this;
+        }
+        $this->error = 'Something went wrong while updating data';
+        return $this;
+    }
 }
