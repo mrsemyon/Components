@@ -19,7 +19,7 @@ if (Input::exists()) {
             $login = $user->login(Input::get('email'), Input::get('password'));
             if ($login) {
                 Session::flash('success', 'Login completed successfully');
-                Redirect::to('/test.php');
+                Redirect::to('/index.php');
             } else {
                 echo 'login failed';
             }

@@ -5,11 +5,22 @@ class User
     private $db;
     private $data;
     private $sessionName;
+    private $isLoggedIn;
 
-    public function __construct()
+    public function __construct($user = null)
     {
         $this->db = Database::getInstance();
         $this->sessionName = Config::get('session.userSession');
+        if (!$user) {
+            if (Session::exists($this->sessionName)) {
+                $user = Session::get($this->sessionName);
+                if ($this->find($user)) {
+                    $this->isLoggedIn = true;
+                }
+            }
+        } else {
+            $this->find($user);
+        }
     }
 
     public function create($fields = [])
@@ -31,9 +42,13 @@ class User
         return false;
     }
 
-    public function find($email = null)
+    public function find($value = null)
     {
-        $this->data = $this->db->get('users', ['email', '=', $email])->first();
+        if (is_numeric($value)) {
+            $this->data = $this->db->get('users', ['id', '=', $value])->first();
+        } else {
+            $this->data = $this->db->get('users', ['email', '=', $value])->first();
+        }
         if ($this->data) {
             return true;
         } else {
@@ -44,5 +59,10 @@ class User
     public function data()
     {
         return $this->data;
+    }
+
+    public function isLoggedIn()
+    {
+        return $this->isLoggedIn;
     }
 }
