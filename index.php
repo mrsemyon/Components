@@ -3,7 +3,6 @@ require $_SERVER['DOCUMENT_ROOT'] . '/src/core.php';
 
 if (Input::exists()) {
     if (Token::check(Input::get('token'))) {
-
         $validate = new Validate();
         $validation = $validate->check($_POST, [
             'username' => [
@@ -31,7 +30,7 @@ if (Input::exists()) {
             ]);
 
             Session::flash('success', 'Registration completed successfully');
-            header('Location: /test.php');
+            Redirect::to('/test.php');
         } else {
 
             foreach ($validation->errors() as $error) {
