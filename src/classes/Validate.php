@@ -42,6 +42,10 @@ class Validate
                                 $this->addError("The {$item} alredy exists");
                             }
                             break;
+                        case 'email':
+                            if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                                $this->addError("The {$item} must be valid email");
+                            }
                     }
                 }
             }
