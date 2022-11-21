@@ -1,4 +1,4 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/src/core.php';
-
-Redirect::to('register.php');
+?>
+<h1><?= Session::get(Config::get('session.userSession')) ?></h1>

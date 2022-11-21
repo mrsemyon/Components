@@ -134,6 +134,8 @@ class Database
 
     public function first()
     {
-        return $this->result()[0];
+        if (!empty($this->result())) {
+            return $this->result()[0];
+        }
     }
 }
