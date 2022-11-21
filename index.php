@@ -8,6 +8,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/Input.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/Validate.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/Token.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/Session.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/User.php';
 
 $GLOBALS['config'] = [
     'mysql'     => [
@@ -49,6 +50,12 @@ if (Input::exists()) {
         ]);
 
         if ($validation->passed()) {
+
+            $user = new User();
+            $user->create([
+                'username' => Input::get('username'),
+                'password' => password_hash(Input::get('password'), PASSWORD_DEFAULT)
+            ]);
             Session::flash('success', 'Registration completed successfully');
             header('Location: /test.php');
         } else {
