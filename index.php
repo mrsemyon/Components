@@ -12,3 +12,5 @@ if ($user->isLoggedIn()) {
     echo "<br>";
     echo "<a href='/login.php'>Login</a>";
 }
+echo "<br>";
+echo "<a href='/update.php'>Update</a>";

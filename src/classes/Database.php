@@ -118,6 +118,7 @@ class Database
 
     public function update($table, $id, $fields = [])
     {
+
         $sql = "UPDATE `{$table}` SET ";
         foreach ($fields as $key => $value) {
             $sql .= "`" . $key . "` = ?, ";

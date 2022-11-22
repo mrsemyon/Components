@@ -103,4 +103,9 @@ class User
     {
         return (!empty($this->data())) ? true : false;
     }
+
+    public function update($fields = [])
+    {
+        return $this->db->update('users', $this->data()->id, $fields);
+    }
 }
