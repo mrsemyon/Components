@@ -16,5 +16,9 @@ $GLOBALS['config'] = [
     'session'   => [
         'tokenName'     => 'token',
         'userSession'   => 'user',
+    ],
+    'cookie'    => [
+        'cookieName'    => 'hash',
+        'cookieExpiry'  => 604800,
     ]
 ];
