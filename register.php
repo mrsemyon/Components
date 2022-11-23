@@ -35,7 +35,7 @@ if (Input::exists()) {
             ]);
 
             Session::flash('success', 'Registration completed successfully');
-            Redirect::to('/test.php');
+            Redirect::to('/index.php');
         } else {
 
             foreach ($validation->errors() as $error) {
