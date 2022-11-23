@@ -1,10 +1,15 @@
+<pre>
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/src/core.php';
 
 $user = new User();
 echo Session::flash('success');
 echo '<br>';
+
 if ($user->isLoggedIn()) {
+    if ($user->hasPermissions('admin')) {
+        echo 'You are admin!';
+    }
     echo 'Hi, ' . $user->data()->username . '!';
     echo '<br>';
     echo "<a href='/logout.php'>Logout</a>";

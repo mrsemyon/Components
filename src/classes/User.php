@@ -108,4 +108,16 @@ class User
     {
         return $this->db->update('users', $this->data()->id, $fields);
     }
+
+    public function hasPermissions($key = null)
+    {
+        $group = $this->db->get('groups', ['id', '=', $this->data()->group_id]);
+        if ($group->count()) {
+            $permissions = json_decode($group->first()->permissions, true);
+            if ($permissions[$key]) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
