@@ -114,7 +114,7 @@ class User
         $group = $this->db->get('groups', ['id', '=', $this->data()->group_id]);
         if ($group->count()) {
             $permissions = json_decode($group->first()->permissions, true);
-            if (!isset($permissions[$key])) {
+            if (isset($permissions[$key])) {
                 return true;
             }
         }
